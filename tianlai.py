@@ -7,21 +7,20 @@ from bs4 import BeautifulSoup
 import unicodedata as ucd
 
 chapterStart = '第一章'
-baseUrl = 'http://www.jiutianxx.com'
-bookIndex = '/wcxs/677/677076/1/'
-sites = ['九天小说网']
+baseUrl = 'https://www.tianlaibook.com/'
+bookIndex = '200_200061/'
+sites = ['天']
 save_local_path = '/Users/dulinwei/Desktop/'
 def find_chapters(soup):
     boxCon = soup.find('div', id = 'list')
-    tags = boxCon.find_all('a',href = re.compile('lacie'))
+    tags = boxCon.find_all('a')
     startIndex = 0
     for index,tag in enumerate(tags):
-        print(tag)
-        # if(chapterStart in tag.string):
-        #     startIndex = index
-        #     break
-    # chapters = tags[startIndex:]
-    # return chapters
+        if(chapterStart in tag.string):
+            startIndex = index
+            break
+    chapters = tags[startIndex:]
+    return chapters
 
 def find_detail(soup):
     bookdetail = soup.find('div', id = 'info')
@@ -70,25 +69,25 @@ def savepath(bookName):
 def findBook(url):
     html = requests.get(url)
     soup = BeautifulSoup(html.text, 'lxml')
-    # book_info = find_detail(soup)
-    # book_name = book_info['bookName']
-    # print('找到书籍《{}》'.format(book_name))
-    # book_des = book_info['des']
-    # book_detail = book_info['detail']
+    book_info = find_detail(soup)
+    book_name = book_info['bookName']
+    print('找到书籍《{}》'.format(book_name))
+    book_des = book_info['des']
+    book_detail = book_info['detail']
     #获取所有的章节
     chapters = find_chapters(soup)
-    # fopen = open(savepath(book_name),"a")
-    # fopen.write(book_name + '\n'*3)
-    # fopen.write(book_des + '\n')
-    # fopen.write(book_detail + '\n'*5)
-    # chapters_count = len(chapters)
-    # for index,chapter in enumerate(chapters):
-    #     page = filterChapter(chapter)
-    #     #写入文件
-    #     fopen.writelines(page) 
-    #     print("%.2f" % (index / chapters_count * 100) + "%", end='\r')
-    # fopen.close()
-    # print('本书籍下载完成')
+    fopen = open(savepath(book_name),"a")
+    fopen.write(book_name + '\n'*3)
+    fopen.write(book_des + '\n')
+    fopen.write(book_detail + '\n'*5)
+    chapters_count = len(chapters)
+    for index,chapter in enumerate(chapters):
+        page = filterChapter(chapter)
+        #写入文件
+        fopen.writelines(page) 
+        print("%.2f" % (index / chapters_count * 100) + "%", end='\r')
+    fopen.close()
+    print('本书籍下载完成')
     
 start_time = time.time()
 findBook(baseUrl + bookIndex)
