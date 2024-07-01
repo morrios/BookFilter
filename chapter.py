@@ -4,6 +4,10 @@ from bs4 import BeautifulSoup
 from filter_config import keyWorkds
 
 
+# 判断是否是 NoneType
+def is_none_type(obj):
+    return isinstance(obj, type(None))
+
 def getChapterContent(index, page_url, chapter):
     chapter_name = chapter.string
     try:

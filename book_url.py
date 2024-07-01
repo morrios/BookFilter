@@ -10,7 +10,7 @@ class BookUrlHandle:
 
     def get_book_complete_url(self, book_url):
         if book_url.startswith('https://') or book_url.startswith('http://'):
-            return  book_url
+            return book_url
         if len(self.book_url_base) == 0:
             self.book_url_base = self.merge_new_base_path(book_url)
         if book_url.startswith('/'):

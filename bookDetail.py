@@ -1,9 +1,10 @@
 # encoding:utf-8
+from chapter import is_none_type
+
 
 # 去除空格
 def removeSpace(value):
     return ''.join(str(value).split())
-
 
 class BookDetail:
     def __init__(self, soup):
@@ -59,22 +60,26 @@ class BookDetail:
 
     def getAllChapter(self):
         chapters = []
-        list_soup = self.soup.body.find_all('dd')
-        if not list_soup:
-            list_soup = self.soup.find_all('li')
-        if not list_soup:
-            list_soup = self.soup.find_all('ul')
+        list_soup = self.soup.body.find('div', id='list')
+        list_a = self.soup.find_all('a')
         chapters_dict = {}
-        for index, item in enumerate(list_soup):
-            a_tag = item.a
-            if a_tag is not None and 'html' in a_tag['href']:
+        for index, item in enumerate(list_a):
+            a_tag = item
+            if a_tag is None:
+                print(a_tag)
+                continue
+            if item.has_attr('href') and 'html' in item['href']:
                 if item.parent in chapters_dict:
-                    chapters_dict[item.parent].append(item.a)
+                    chapters_dict[item.parent].append(item)
                 else:
-                    chapters_dict[item.parent] = [item.a]
+                    chapters_dict[item.parent] = [item]
+                    print(item)
+            else:
+                print("Not exist")
         for values in chapters_dict.values():
             if len(values) > len(chapters):
                 chapters = values
+        print(chapters)
         return chapters
 
 
