@@ -1,4 +1,4 @@
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urljoin
 
 
 class BookUrlHandle:
@@ -14,8 +14,16 @@ class BookUrlHandle:
         if len(self.book_url_base) == 0:
             self.book_url_base = self.merge_new_base_path(book_url)
         if book_url.startswith('/'):
-            return self.book_url_base + book_url
+            return self.merge_urls(self.baseUrl, book_url)
         return self.book_url_base + '/' + book_url
+
+    def merge_urls(self, base_url, relative_url):
+        # 解析基地址和相对地址
+        parsed_base_url = urlparse(base_url)
+        parsed_relative_url = urlparse(relative_url)
+        # 拼接最终的URL
+        final_url = urljoin(parsed_base_url.scheme + "://" + parsed_base_url.netloc, parsed_relative_url.path)
+        return final_url
 
     def get_web_scheme(self):
         parsed_url = urlparse(self.baseUrl)

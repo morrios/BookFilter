@@ -72,7 +72,7 @@ class Book:
         if len(self.author) != 0:
             cli_str = '%s -author %s' % (cli_str, self.author)
         # if len(self.format) != 0:
-        #     cli_str = '%s -format %s' % (cli_str, self.format)
+        cli_str = '%s -match "第.{1,8}章"' % (cli_str)
         print(cli_str)
         ret, val = subprocess.getstatusoutput(cli_str)
         print(ret)

@@ -10,9 +10,8 @@ def print_hi(name):
     # baseUrl = "https://www.c1rp.com/book/3838/"
     # baseUrl = "http://www.uuxs8.cc/r25933/"
     # baseUrl = "https://www.guichuideng1.com/book/15343/"
-    baseUrl = "https://h5.lygxsw.cc/book/198927.html"
+    baseUrl = "https://www.chatgptzw.com/96531/index.html"
     FilterBook(baseUrl)
-
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
